@@ -51,20 +51,21 @@ private fun PreviewApp() {
 }
 
 data class CardItem(val title: String, val content: @Composable () -> Unit)
+val cardItems = listOf(
+    CardItem("Details", { DetailsExpanded() }),
+    CardItem("Billing Details", { BillingExpanded() }),
+    CardItem("Consignee Details", { ConsigneeExpanded() }),
+    CardItem("Package Details", { PackageExpanded() }),
+    CardItem("Payment Details", { PaymentExpanded() }),
+    CardItem("Insurance Details", { InsuranceExpanded() }),
+    CardItem("Vehicle Insurance Details", { VehicleInsuranceExpanded() })
+)
+
 
 // I should have created a separate data class and used forEach lambda here,
 // but it's not worth the effort, I still did it anyways
 @Composable
 fun BillScreenForm(modifier: Modifier = Modifier) {
-    val cardItems = listOf(
-        CardItem("Details", { DetailsExpanded() }),
-        CardItem("Billing Details", { BillingExpanded() }),
-        CardItem("Consignee Details", { ConsigneeExpanded() }),
-        CardItem("Package Details", { PackageExpanded() }),
-        CardItem("Payment Details", { PaymentExpanded() }),
-        CardItem("Insurance Details", { InsuranceExpanded() }),
-        CardItem("Vehicle Insurance Details", { VehicleInsuranceExpanded() })
-    )
     Surface(color = Color.White) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp),

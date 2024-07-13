@@ -1,5 +1,6 @@
 package com.example.gangapackagesolution.Screens.quotationScreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -185,7 +186,7 @@ fun QuotationScreen(data: Quotation, onlick: (Quotation) -> Unit) {
         mutableStateOf(data.remark)
     }
     val discount = remember {
-        mutableStateOf("")
+        mutableStateOf(data.discount)
     }
 
 
@@ -241,10 +242,12 @@ fun QuotationScreen(data: Quotation, onlick: (Quotation) -> Unit) {
 
     }
 
-    if (data.list[0].item != null) {
+    if (data.list.isNotEmpty()){
+    if (data.list[0].itemName != null) {
         itemParticulars.value = data.list
     }
-
+    }
+Log.d("listtttttttttttttttttt",data.list.toString())
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -3,6 +3,7 @@ package com.example.gangapackagesolution.Screens.homeScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,14 +45,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.gangapackagesolution.R
+import com.example.gangapackagesolution.Screens.screenName.Screens
 import com.example.gangapackagesolution.ui.theme.latolight
 import com.example.gangapackagesolution.ui.theme.latosemibold
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     val ScreenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     Scaffold(modifier = Modifier,
@@ -130,7 +133,9 @@ fun HomeScreen() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
-                                MainContent(R.drawable.quotation, "Quotation", Modifier)
+                                MainContent(R.drawable.quotation, "Quotation", Modifier.clickable {
+                                    navController.navigate(Screens.GetQuote.name)
+                                })
 
                                 MainContent(R.drawable.checklist, "Packing List", Modifier)
 
@@ -156,7 +161,7 @@ fun HomeScreen() {
 
                     // to navigate to another screen
                     NavigationSurface("Quotation", R.drawable.quotation) {
-
+                        navController.navigate(Screens.QuoteList.name)
                     }
 
                     NavigationSurface("Packing List", R.drawable.checklist) {
@@ -186,6 +191,7 @@ fun NavigationSurface(s: String, image: Int, onClick: () -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onClick() }
             .padding(start = 20.dp, end = 20.dp, top = 20.dp),
         color = Color(0xffF7F7F7),
         shape = RoundedCornerShape(10.dp)
@@ -341,9 +347,7 @@ fun SubscriptionCard() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .border(color = Color.Transparent, width = 2.dp, shape = RoundedCornerShape(10.dp))
-
-        ,
+            .border(color = Color.Transparent, width = 2.dp, shape = RoundedCornerShape(10.dp)),
 
         colors = CardDefaults.cardColors(
             containerColor = Color.White

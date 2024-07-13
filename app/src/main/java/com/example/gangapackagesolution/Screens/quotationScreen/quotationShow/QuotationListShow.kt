@@ -1,6 +1,7 @@
 package com.example.gangapackagesolution.Screens.quotationScreen.quotationShow
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +40,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -52,8 +54,6 @@ import com.example.gangapackagesolution.Screens.screenName.Screens
 import com.example.gangapackagesolution.models.Quotation.Quotation
 import com.example.gangapackagesolution.ui.theme.latolight
 import com.example.gangapackagesolution.ui.theme.latosemibold
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
@@ -86,7 +86,11 @@ fun QuotationListShow(viewModel: MainViewModel, navController: NavHostController
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = Color.White,
-                    modifier = Modifier.padding(17.dp)
+                    modifier = Modifier
+                        .padding(17.dp)
+                        .clickable {
+                            navController.navigate(Screens.Home.name)
+                        }
                 )
 
                 Text(
@@ -364,7 +368,7 @@ fun ShowMoreDialog(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp)
         ) {
-
+            val context = LocalContext.current
             Column {
 
                 Text(
@@ -375,12 +379,22 @@ fun ShowMoreDialog(
                 )
                 HorizontalDivider()
 
-                ShowOptions("Delete", R.drawable.delete) {}
-                ShowOptions("View Pdf", R.drawable.pdf) {}
-                ShowOptions("Share Pdf", R.drawable.next) {}
-                ShowOptions("Generate LR", R.drawable.box_truck) {}
-                ShowOptions("Generate Bill", R.drawable.bill) {}
-                ShowOptions("Generate Money Receipt", R.drawable.receipt) {}
+                ShowOptions("Delete", R.drawable.delete, viewModel) {
+                    viewModel.deleteQuotation(quotationList.id.toString())
+                }
+
+                ShowOptions("View Pdf", R.drawable.pdf, viewModel) {
+                    Log.d("TAG", "ShowMoreDialog: ")
+                    viewModel.getPdf(quotationList.id.toString(), context, false)
+                }
+                ShowOptions("Share Pdf", R.drawable.next, viewModel) {
+
+                    viewModel.getPdf(quotationList.id.toString(), context, true)
+
+                }
+                ShowOptions("Generate LR", R.drawable.box_truck, viewModel) {}
+                ShowOptions("Generate Bill", R.drawable.bill, viewModel) {}
+                ShowOptions("Generate Money Receipt", R.drawable.receipt, viewModel) {}
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -429,6 +443,7 @@ fun ShowMoreDialog(
 @Composable
 fun ShowOptions(
     s: String, delete: Int,
+    viewModel: MainViewModel,
     onClick: () -> Unit
 ) {
     Row(

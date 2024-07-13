@@ -81,5 +81,9 @@ dependencies {
 
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("com.google.code.gson:gson:2.8.8")
+
+    // system status changer
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.0-alpha")
+
 }
 

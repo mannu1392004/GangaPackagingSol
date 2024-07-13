@@ -1,6 +1,9 @@
 package com.example.gangapackagesolution.repository
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.FileProvider
 import com.example.gangapackagesolution.constants.Constants
 import com.example.gangapackagesolution.models.DataOrException
 import com.example.gangapackagesolution.models.Quotation.Quotation
@@ -12,6 +15,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 object Repository {
@@ -259,6 +264,151 @@ object Repository {
                 Log.d("jednejnedjejnw", "$e")
             }
 
+        }
+    }
+
+    // saving normal Quotation
+    suspend fun saveQuotation(
+        quotation: Quotation,
+        quotationState: MutableStateFlow<DataOrException<String, Exception>>,
+        refresh: () -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            val json = Gson().toJson(quotation)
+            val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .url("${Constants.baseUrl}saveQuotation/${getJwt()}")
+                .post(requestBody)
+                .build()
+
+            try {
+                quotationState.value = DataOrException(loading = true)
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+
+                    withContext(Dispatchers.Main) {
+                        refresh()
+                    }
+                }
+
+
+            } catch (e: IOException) {
+                withContext(Dispatchers.Main) {
+                    Log.e("saveQuotation", "Network error: ${e.message}", e)
+                    quotationState.value = DataOrException(e = e, loading = false)
+                }
+            } catch (e: Exception) {
+                quotationState.value = DataOrException(e = e, loading = false)
+            }
+        }
+
+
+    }
+
+    // downloading the Quotation Pdf
+
+    suspend fun downloadPdf(
+        context: Context,
+        id: String,
+        pdfState: MutableStateFlow<DataOrException<String, Exception>>,
+        share: Boolean
+    ) {
+        pdfState.value = DataOrException(loading = true)
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("${Constants.baseUrl}download/$id/${getJwt()}")
+            .get()
+            .build()
+
+        try {
+            withContext(Dispatchers.IO) {
+                val response = client.newCall(request).execute()
+
+                if (response.isSuccessful) {
+                    response.body?.let { responseBody ->
+                        val pdfBytes = responseBody.bytes()
+                        val file = File(context.cacheDir, "Quotation$id.pdf")
+
+                        FileOutputStream(file).use { fos ->
+                            fos.write(pdfBytes)
+                        }
+                        val uri = FileProvider.getUriForFile(
+                            context,
+                            "${context.packageName}.provider",
+                            file
+                        )
+                        if (!share) {
+                            // View the PDF
+
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                setDataAndType(uri, "application/pdf")
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+                            context.startActivity(intent)
+                            pdfState.value =
+                                DataOrException(data = "Download Successful", loading = false)
+                        } else {
+
+
+                            // Share the PDF
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "application/pdf"
+                                putExtra(Intent.EXTRA_STREAM, uri)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+                            val shareIntent = Intent.createChooser(intent, "Share Quotation")
+                            context.startActivity(shareIntent)
+                            pdfState.value =
+                                DataOrException(data = "Share Successful", loading = false)
+
+                        }
+                    }
+
+                        ?: throw IOException("Response body is null")
+                } else {
+                    pdfState.value = DataOrException(
+                        e = IOException("Server responded with error: ${response.code}"),
+                        loading = false
+                    )
+                }
+            }
+        } catch (e: IOException) {
+            pdfState.value = DataOrException(e = e, loading = false)
+        } catch (e: Exception) {
+            pdfState.value = DataOrException(e = e, loading = false)
+        }
+    }
+
+    // delete quotation
+    suspend fun deleteQuotation(
+        id: String,
+        refresh: () -> Unit
+    ) {
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("${Constants.baseUrl}deleteQuote/$id/${getJwt()}")
+            .get()
+            .build()
+
+        try {
+
+            withContext(Dispatchers.IO) {
+                val response = client.newCall(request).execute()
+
+                if (response.isSuccessful) {
+                    withContext(Dispatchers.Main) {
+                        refresh()
+                    }
+                } else {
+                    Log.d("success", "Deleted")
+                }
+
+
+            }
+        } catch (e: Exception) {
+            Log.d("djxd", "dnxdxndjxn")
         }
     }
 

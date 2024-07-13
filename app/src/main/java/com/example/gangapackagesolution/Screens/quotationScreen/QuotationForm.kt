@@ -2,6 +2,7 @@ package com.example.gangapackagesolution.Screens.quotationScreen
 
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
+import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -495,6 +496,8 @@ onlick: () -> Unit
                         itemremark.value
                     )
                 }
+
+            Log.d("list to saveeeee",itemParticulars.value.toString())
             }
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -509,8 +512,6 @@ onlick: () -> Unit
         Spacer(modifier = Modifier.height(20.dp))
 
         CustomButton("Submit Quotation") {
-
-
             onlick()
         }
 
@@ -550,7 +551,7 @@ fun ShowAndRemoveItems(itemParticulars: MutableState<List<itemParticulars>>) {
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = it.item,
+                                    text = it.itemName,
                                     color = Color.White,
                                     modifier = Modifier.weight(1f)
                                 )

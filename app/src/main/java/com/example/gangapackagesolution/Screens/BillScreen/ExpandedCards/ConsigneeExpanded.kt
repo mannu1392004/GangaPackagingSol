@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,73 +49,71 @@ fun ConsigneeExpanded(modifier: Modifier = Modifier) {
         mutableStateOf("")
     }
 
-    Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF673AB7))) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = modifier
-                .padding(10.dp)
-                .fillMaxSize()
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier
+            .padding(10.dp)
+            .fillMaxSize()
+    ) {
+        RegularField(
+            stateHolder = toName,
+            title = "CONSIGNEE NAME"
+        )
+        RegularField(
+            stateHolder = toPhone,
+            title = "CONSIGNEE PHONE",
+            wordType = false
+        )
+        RegularField(
+            stateHolder = gstinNumber,
+            title = "GSTIN",
+            wordType = false
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
         ) {
             RegularField(
-                stateHolder = toName,
-                title = "CONSIGNEE NAME"
+                stateHolder = countryName,
+                title = "COUNTRY",
             )
+            Spacer(modifier = Modifier.weight(0.1f))
             RegularField(
-                stateHolder = toPhone,
-                title = "CONSIGNEE PHONE",
-                wordType = false
-            )
-            RegularField(
-                stateHolder = gstinNumber,
-                title = "GSTIN",
-                wordType = false
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-            ) {
-                RegularField(
-                    stateHolder = countryName,
-                    title = "COUNTRY",
-                )
-                Spacer(modifier = Modifier.weight(0.1f))
-                RegularField(
-                    stateHolder = stateName,
-                    title = "STATE",
-                )
-            }
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-            ) {
-                Box(modifier = Modifier.weight(1f)) {
-                    RegularField(
-                        stateHolder = cityName,
-                        title = "CITY",
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(0.1f))
-
-                Box(modifier = Modifier.weight(1f)) {
-                    RegularField(
-                        stateHolder = pinCode,
-                        title = "PINCODE",
-                        wordType = false,
-                    )
-                }
-            }
-
-            ExtendedField(
-                title = "ADDRESS",
-                stateHolder = addressState
+                stateHolder = stateName,
+                title = "STATE",
             )
         }
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+        ) {
+            Box(modifier = Modifier.weight(1f)) {
+                RegularField(
+                    stateHolder = cityName,
+                    title = "CITY",
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(0.1f))
+
+            Box(modifier = Modifier.weight(1f)) {
+                RegularField(
+                    stateHolder = pinCode,
+                    title = "PINCODE",
+                    wordType = false,
+                )
+            }
+        }
+
+        ExtendedField(
+            title = "ADDRESS",
+            stateHolder = addressState
+        )
     }
 }

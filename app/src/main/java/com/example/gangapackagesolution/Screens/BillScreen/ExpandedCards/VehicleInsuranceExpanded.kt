@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,44 +38,42 @@ fun VehicleInsuranceExpanded(modifier: Modifier = Modifier) {
         mutableStateOf(data.gstperc[1])
     }
 
-    Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF673AB7))) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = modifier
-                .padding(10.dp)
-                .fillMaxSize()
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier
+            .padding(10.dp)
+            .fillMaxSize()
+    ) {
+        OptionsField(
+            title = "INSURANCE TYPE",
+            optionList = data.insuranceType,
+            selectedValue = selectedInsuranceType,
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
         ) {
-            OptionsField(
-                title = "INSURANCE TYPE",
-                optionList = data.insuranceType,
-                selectedValue = selectedInsuranceType,
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-            ) {
-                Box(modifier = Modifier.weight(3f)) {
-                    OptionsField(
-                        title = "INSURANCE CHARGE(%)",
-                        optionList = data.insuranceCharge,
-                        selectedValue = selectedInsuranceCharge,
-                    )
-                }
-                Spacer(modifier = Modifier.weight(0.1f))
-                Box(modifier = Modifier.weight(1f)) {
-                    OptionsField(
-                        title = "GST %",
-                        optionList = data.gstperc,
-                        selectedValue = selectedGstPercentage,
-                    )
-                }
+            Box(modifier = Modifier.weight(3f)) {
+                OptionsField(
+                    title = "INSURANCE CHARGE(%)",
+                    optionList = data.insuranceCharge,
+                    selectedValue = selectedInsuranceCharge,
+                )
             }
-            RegularField(
-                title = "DECLARATION VALUE OF VEHICLE",
-                stateHolder = declarationState,
-                wordType = false
-            )
+            Spacer(modifier = Modifier.weight(0.1f))
+            Box(modifier = Modifier.weight(1f)) {
+                OptionsField(
+                    title = "GST %",
+                    optionList = data.gstperc,
+                    selectedValue = selectedGstPercentage,
+                )
+            }
         }
+        RegularField(
+            title = "DECLARATION VALUE OF VEHICLE",
+            stateHolder = declarationState,
+            wordType = false
+        )
     }
 }

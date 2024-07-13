@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,97 +49,95 @@ fun BillingExpanded(modifier: Modifier = Modifier) {
         mutableStateOf("")
     }
 
-    Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF673AB7))) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = modifier
-                .padding(10.dp)
-                .fillMaxSize()
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier
+            .padding(10.dp)
+            .fillMaxSize()
+    ) {
+        RegularField(
+            stateHolder = toName,
+            title = "BILL TO NAME"
+        )
+        RegularField(
+            stateHolder = toPhone,
+            title = "BILL TO PHONE",
+            wordType = false
+        )
+        RegularField(
+            stateHolder = gstinNumber,
+            title = "GSTIN",
+            wordType = false
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
         ) {
-            RegularField(
-                stateHolder = toName,
-                title = "BILL TO NAME"
-            )
-            RegularField(
-                stateHolder = toPhone,
-                title = "BILL TO PHONE",
-                wordType = false
-            )
-            RegularField(
-                stateHolder = gstinNumber,
-                title = "GSTIN",
-                wordType = false
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
+                    .weight(1f)
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                ) {
-                    RegularField(
-                        stateHolder = countryName,
-                        title = "COUNTRY",
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(0.07f))
-
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
+                RegularField(
+                    stateHolder = countryName,
+                    title = "COUNTRY",
                 )
-                {
-                    RegularField(
-                        stateHolder = stateName,
-                        title = "STATE",
-                    )
-                }
-
             }
 
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Spacer(modifier = Modifier.weight(0.07f))
+
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
+                    .weight(1f)
+            )
+            {
+                RegularField(
+                    stateHolder = stateName,
+                    title = "STATE",
                 )
-                {
-                    RegularField(
-                        stateHolder = cityName,
-                        title = "CITY",
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(0.07f))
-
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                )
-                {
-                    RegularField(
-                        stateHolder = pinCode,
-                        title = "PINCODE",
-                        wordType = false,
-                    )
-                }
-
             }
 
-            ExtendedField(
-                title = "ADDRESS",
-                stateHolder = addressState
-            )
         }
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+            )
+            {
+                RegularField(
+                    stateHolder = cityName,
+                    title = "CITY",
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(0.07f))
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+            )
+            {
+                RegularField(
+                    stateHolder = pinCode,
+                    title = "PINCODE",
+                    wordType = false,
+                )
+            }
+
+        }
+
+        ExtendedField(
+            title = "ADDRESS",
+            stateHolder = addressState
+        )
     }
 
 }

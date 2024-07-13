@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.gangapackagesolution.Screens.BillScreen.Components.DateSelector
 import com.example.gangapackagesolution.Screens.BillScreen.Components.OptionsField
 import com.example.gangapackagesolution.Screens.BillScreen.Components.RegularField
-import com.example.gangapackagesolution.Screens.BillScreen.getCurrentDate
+import com.example.gangapackagesolution.Screens.BillScreen.utils.getCurrentDate
 import com.example.gangapackagesolution.data.Data
 
 @Composable

@@ -758,11 +758,7 @@ fun DateSelector(selectedDate: MutableState<String>, modifier: Modifier, s: Stri
                 modifier = Modifier.padding(10.dp)
             )
         }
-
-
     }
-
-
 }
 
 

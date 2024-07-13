@@ -116,4 +116,34 @@ class Data {
     )
 
     val yesNo = listOf("Yes", "No")
+
+    val movingPathList = listOf(
+        "By Road",
+        "By Sea",
+        "By Air",
+        "By Air & Road",
+        "By Sea & Road"
+    )
+
+    val weightUnitList = listOf(
+        "KG",
+        "MT",
+        "LTR",
+        "CBM",
+        "CFT"
+    )
+
+    val gstIn_ExList = listOf(
+        "Included In BIll",
+        "Excluded From Bill",
+        "Without GST Bill",
+        "GST Exempted"
+    )
+
+    val gstPaidByList = listOf(
+        "Consignee",
+        "Consignor",
+        "Moving Company"
+    )
+
 }

@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -757,11 +758,7 @@ fun DateSelector(selectedDate: MutableState<String>, modifier: Modifier, s: Stri
                 modifier = Modifier.padding(10.dp)
             )
         }
-
-
     }
-
-
 }
 
 
@@ -769,7 +766,7 @@ fun DateSelector(selectedDate: MutableState<String>, modifier: Modifier, s: Stri
 fun OptionsField(
     movingType1: String,
     movingType: List<String>,
-    subcharge: MutableState<String>
+    subcharge: MutableState<String>,
 ) {
 
 
@@ -792,7 +789,6 @@ fun OptionsField(
             shape = RoundedCornerShape(10.dp),
             shadowElevation = 10.dp
         ) {
-
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.padding(12.dp)
@@ -851,7 +847,6 @@ fun RegularField(
             shape = RoundedCornerShape(10.dp),
 
             ) {
-
             if (type) {
                 BasicTextField(
                     value = quotationId.value,

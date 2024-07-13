@@ -43,12 +43,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gangapackagesolution.R
 import com.example.gangapackagesolution.ui.theme.latolight
 import com.example.gangapackagesolution.ui.theme.latosemibold
 import kotlinx.coroutines.delay
 
+@Preview(showSystemUi = true, showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
@@ -341,9 +343,7 @@ fun SubscriptionCard() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .border(color = Color.Transparent, width = 2.dp, shape = RoundedCornerShape(10.dp))
-
-        ,
+            .border(color = Color.Transparent, width = 2.dp, shape = RoundedCornerShape(10.dp)),
 
         colors = CardDefaults.cardColors(
             containerColor = Color.White
